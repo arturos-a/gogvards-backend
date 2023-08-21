@@ -1,0 +1,25 @@
+micronaut:
+  application:
+    name: eventServcie
+  server:
+    port: 9193
+netty:
+  default:
+    allocator:
+      max-order: 3
+service:
+  auth-header: X-AUTH-HEADER
+jpa:
+  default:
+    reactive: true
+    properties:
+      hibernate:
+        default_schema: events
+        hbm2ddl:
+          auto: update
+        connection:
+          url: jdbc:postgres://localhost:5432/events
+          username: postgres
+          password: postgres
+jackson:
+  date-format: yyyy-MM-dd hh:mm:ss

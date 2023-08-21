@@ -1,0 +1,23 @@
+micronaut:
+  application:
+    name: userService
+  server:
+    port: 9191
+netty:
+  default:
+    allocator:
+      max-order: 3
+gateway:
+  auth-header: X-AUTH-HEADER
+jpa:
+  default:
+    reactive: true
+    properties:
+      hibernate:
+        default_schema: users
+        hbm2ddl:
+          auto: update
+        connection:
+          url: jdbc:postgres://localhost:5432/userdata
+          username: postgres
+          password: postgres
