@@ -1,0 +1,46 @@
+gateway:
+  auth-header: X-AUTH-HEADER
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:9191
+          predicates:
+            - Path=/gw/user/**
+          filters:
+            - PrefixPath=/api
+            - RewritePath=/gw/user(?<segment>.*), $\{segment}
+        - id: event-servcie
+          uri: http://localhost:9193
+          predicates:
+            - Path=/gw/event-service/**
+          filters:
+            - PrefixPath=/api
+            - RewritePath=/gw/event-service(?<segment>.*), $\{segment}
+  security:
+    oauth2:
+      client:
+        provider:
+          my-keycloak-provider:
+            issuer-uri: http://localhost:8080/realms/gogvardsauth
+        registration:
+          spring-gateway-client:
+            provider: my-keycloak-provider
+            client-id: spring-gateway-client
+            client-secret: 6oMxFVoIdMoOMVvQql9VVEJRpFHWPRe3
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+server:
+  port: 9090
+
+logging:
+  level:
+    reactor:
+      netty: DEBUG
+    org:
+      springframework:
+        cloud:
+          gateway: DEBUG
